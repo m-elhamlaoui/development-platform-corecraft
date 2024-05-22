@@ -14,7 +14,7 @@ public class WorkoutService {
     private WorkoutRepository workoutRepository;
 
     @Autowired
-    private UserService UserService;
+    private UserService userService;
 
     public List<Workout> getAllWorkouts() {
         return workoutRepository.findAll();
