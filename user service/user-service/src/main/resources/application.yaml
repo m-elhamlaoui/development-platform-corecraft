@@ -1,6 +1,5 @@
 server:
   port: 8080
-
 spring:
   application:
     name: user-service
@@ -17,6 +16,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+<<<<<<< HEAD
 #eureka:
 #  instance:
 #    prefer-ip-address: true
@@ -25,3 +25,17 @@ spring:
 #      defaultZone: http://localhost:8070/eureka/
 #    fetch-registry: true
 #    register-with-eureka: true
+=======
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+
+
+#  http://localhost:8070/eureka/ 
+# jdbc:postgresql://localhost:5432/userData.
+>>>>>>> a32cee514f33a7288a3f3aed2359a38b3f53f85b

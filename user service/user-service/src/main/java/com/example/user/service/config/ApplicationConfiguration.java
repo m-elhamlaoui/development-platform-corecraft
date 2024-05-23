@@ -45,12 +45,16 @@ public class ApplicationConfiguration {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration ccfg = new CorsConfiguration();
+
                 ccfg.setAllowedOrigins(Collections.singletonList("*"));
                 ccfg.setAllowedMethods(Collections.singletonList("*"));
+
                 ccfg.setAllowCredentials(true);
                 ccfg.setAllowedHeaders(Collections.singletonList("*"));
+
                 ccfg.setExposedHeaders(Arrays.asList("Authorisation"));
                 ccfg.setMaxAge(3600L);
+                //ccfg.setMaxAge(3600L);
                 return ccfg;
 
             }
@@ -60,7 +64,7 @@ public class ApplicationConfiguration {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); //ToDo
     }
 
 }

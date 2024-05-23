@@ -14,11 +14,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
-        User savedUser = userService.registerUser(user);
-        return ResponseEntity.ok("User registered successfully with ID: " + savedUser.getId());
-    }
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody User login) {
@@ -28,11 +23,10 @@ public class UserController {
         }
         return ResponseEntity.status(401).body("Invalid credentials");
     }
-
-    @GetMapping("/")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody User user) {
+        User savedUser = userService.registerUser(user);
+        return ResponseEntity.ok("User registered successfully with ID: " + savedUser.getId());
     }
 
     @GetMapping("/{email}")
@@ -45,8 +39,15 @@ public class UserController {
         }
     }
 
+    @GetMapping("/")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+
     @GetMapping("/home")
     public ResponseEntity<String> home() {
-        return ResponseEntity.ok("Welcome to the User Dashboard!");
+        return ResponseEntity.ok("Welcome to the User Dashboard !");
     }
 }
