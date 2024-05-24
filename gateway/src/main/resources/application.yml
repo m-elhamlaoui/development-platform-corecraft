@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: plans service
+        uri: http://plans service:8081
+        predicates:
+        - Path=/plans service/**
+        filters:
+        - StripPrefix=1
+      - id: stats-service
+        uri: http://stats-service:8082
+        predicates:
+        - Path=/stats-service/**
+        filters:
+        - StripPrefix=1
+      - id: user-service
+        uri: http://user-service:8082
+        predicates:
+        - Path=/user-service/**
+        filters:
+        - StripPrefix=1
+        - id: workouts-service
+        uri: http://workouts-service:8082
+        predicates:
+        - Path=/workouts-service/**
+        filters:
+        - StripPrefix=1
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
