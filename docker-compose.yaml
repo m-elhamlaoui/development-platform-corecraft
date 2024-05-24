@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: db
+      dockerfile: Dockerfile
+    container_name: db-c
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - net
+
+  eureka-server:
+    build:
+      context: eureka-server
+      dockerfile: Dockerfile
+    container_name: eureka-server-c
+    ports:
+      - "8070:8070"
+    networks:
+      - net
+
+  user-service:
+    build:
+      context: user-service
+      dockerfile: Dockerfile
+    container_name: user-service-c
+    ports:
+      - "8080:8080"
+    networks:
+      - net
+    depends_on:
+      - eureka-server
+      - db
+  
+  workouts-service:
+    build:
+      context: workouts-service
+      dockerfile: Dockerfile
+    container_name: workouts-service-c
+    ports:
+      - "8081:8081"
+    networks:
+      - net
+    depends_on:
+      - eureka-server
+      - db
+  
+  stats-service:
+    build:
+      context: stats-service
+      dockerfile: Dockerfile
+    container_name: stats-service-c
+    ports:
+      - "8084:8084"
+    networks:
+      - net
+    depends_on:
+      - eureka-server
+      - db
+
+  plans-service:
+    build:
+      context: plans-service
+      dockerfile: Dockerfile
+    container_name: plans-service-c
+    ports:
+      - "8082:8082"
+    networks:
+      - net
+    depends_on:
+      - eureka-server
+      - db
+
+
+networks:
+  net:
+    driver: bridge

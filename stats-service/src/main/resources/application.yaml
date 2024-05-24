@@ -5,7 +5,7 @@ spring:
   application:
     name: stats-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/statData
+    url: jdbc:postgresql://db:5432/statdata
     username: postgres
     password: pass123
     driver-class-name: org.postgresql.Driver
@@ -23,6 +23,6 @@ eureka:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://localhost:8070/eureka/
+      defaultZone: http://eureka-server:8070/eureka/
     fetch-registry: true
     register-with-eureka: true
