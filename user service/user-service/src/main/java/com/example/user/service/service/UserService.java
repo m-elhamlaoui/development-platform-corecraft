@@ -1,5 +1,6 @@
 package com.example.user.service.service;
 
+import com.example.user.service.config.JwtProvider;
 import com.example.user.service.model.User;
 import com.example.user.service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,9 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User getUserByEmail(String email) {
+    public User getUser(String jwt ){
+        String email = JwtProvider.getEmailFromJwtToken(jwt);
         return userRepository.findByEmail(email);
     }
+
 }

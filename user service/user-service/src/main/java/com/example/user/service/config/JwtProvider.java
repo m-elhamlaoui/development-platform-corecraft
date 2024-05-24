@@ -20,7 +20,7 @@ public class JwtProvider {
 
         String roles = populateAuthorities(authorities);
 
-        @SuppressWarnings("deprecation")
+
         String jwt = Jwts.builder()
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime()+86400000))
@@ -43,7 +43,6 @@ public class JwtProvider {
         return String.join(",",auths);
     }
 
-    @SuppressWarnings("deprecation")
     public static String getEmailFromJwtToken(String jwt) {
         jwt = jwt.substring(7); // Assuming "Bearer " is removed from the token
 

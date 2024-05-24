@@ -22,39 +22,44 @@ import java.io.IOException;
 
 public class JwtTokenValidator extends OncePerRequestFilter {
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        String requestPath = request.getRequestURI();
 
-        String jwt = request.getHeader(JwtConstant.JWT_HEADER);
-        if(jwt != null){
-            jwt = jwt.substring(7);
+        // Skip JWT validation for signup and signin endpoints
+        if (requestPath.equals("/auth/signup") || requestPath.equals("/auth/signin")) {
+            filterChain.doFilter(request, response);
+            return;
         }
 
-        try{
+        String jwt = request.getHeader(JwtConstant.JWT_HEADER);
+        if (jwt == null || !jwt.startsWith("Bearer ")) {
+            System.err.println("JWT is missing or does not start with 'Bearer '");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Authorization header format.");
+            return;
+        }
 
+        // Remove 'Bearer ' prefix
+        jwt = jwt.substring(7);
+
+        try {
             SecretKey key = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
-
-            @SuppressWarnings("deprecation")
             Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
-            System.out.print(claims);
-
             String email = String.valueOf(claims.get("email"));
-            System.out.print(email);
-
             String authorities = String.valueOf(claims.get("authorities"));
+
             List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
             Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, auths);
-
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
-        }catch (Exception e){
-            throw new BadCredentialsException("Invalid token", e);
+        } catch (Exception e) {
+            System.err.println("Error processing JWT: " + e.getMessage());
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token.");
+            return;
         }
 
         filterChain.doFilter(request, response);
     }
+
 }

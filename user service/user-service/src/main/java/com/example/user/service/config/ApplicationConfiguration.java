@@ -23,14 +23,18 @@ import java.util.Collections;
 @Configuration
 public class ApplicationConfiguration {
 
-    @SuppressWarnings("deprecation")
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.sessionManagement(
                 management -> management.sessionCreationPolicy
                         (SessionCreationPolicy.STATELESS))
-                .authorizeRequests(
-                        authorize -> authorize.requestMatchers("/api/**").authenticated().anyRequest().permitAll())
+
+                .authorizeRequests(authorize -> authorize
+                        .requestMatchers("/auth/signup").permitAll()
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll()
+                )
                 .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -54,7 +58,7 @@ public class ApplicationConfiguration {
 
                 ccfg.setExposedHeaders(Arrays.asList("Authorisation"));
                 ccfg.setMaxAge(3600L);
-                //ccfg.setMaxAge(3600L);
+
                 return ccfg;
 
             }
@@ -64,7 +68,7 @@ public class ApplicationConfiguration {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); //ToDo
+        return new BCryptPasswordEncoder();
     }
 
 }
