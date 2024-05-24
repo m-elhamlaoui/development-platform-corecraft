@@ -14,9 +14,10 @@ import java.util.Optional;
 public class PlanService {
 
     @Autowired
-    private PlanRepository planRepository;
+    private static PlanRepository planRepository;
 
-    public Plan createOrUpdatePlan(Plan plan) {
+    public static Plan createOrUpdatePlan(Plan plan, Long userId) {
+        plan.setUserId(userId);
         return planRepository.save(plan);
     }
 
