@@ -27,6 +27,47 @@ Welcome to our fitness app built on a microservices architecture. Beyond basic w
 
 With our microservices architecture, each service operates independently, allowing for seamless scalability and robust performance. Join our community of fitness enthusiasts and take control of your fitness journey today.
 
+# Table of Contents
+
+- [Titre du Projet :](#titre-du-projet-)
+	- [Membres du Groupes :](#membres-du-groupes-)
+- [Introduction](#introduction)
+			- [User Service:](#user-service)
+			- [Workout Service:](#workout-service)
+			- [Plan Service:](#plan-service)
+			- [Stats Service:](#stats-service)
+- [Table of Contents](#table-of-contents)
+- [UML Diagrams:](#uml-diagrams)
+	- [Use cases diagram:](#use-cases-diagram)
+	- [Class diagram:](#class-diagram)
+- [Architecture:](#architecture)
+	- [Microservice Architecture:](#microservice-architecture)
+- [Microservice Components:](#microservice-components)
+	- [Postgres DBMS:](#postgres-dbms)
+	- [Spring Cloud Gateway (API Gateway)](#spring-cloud-gateway-api-gateway)
+	- [Eureka Server](#eureka-server)
+		- [Service Registration:](#service-registration)
+		- [Service Discovery:](#service-discovery)
+		- [Dynamic Scaling:](#dynamic-scaling)
+	- [OpenFeign](#openfeign)
+		- [Service-to-Service Communication:](#service-to-service-communication)
+		- [Ease of Configuration:](#ease-of-configuration)
+	- [User Service](#user-service-1)
+		- [**Key Features**:](#key-features)
+		- [JWT Authentication:](#jwt-authentication)
+		- [Password Hashing:](#password-hashing)
+		- [Functionalities:](#functionalities)
+		- [Why JWT Tokens ?](#why-jwt-tokens-)
+	- [Workouts Service](#workouts-service)
+		- [Functionalities:](#functionalities-1)
+	- [Stats Service](#stats-service-1)
+		- [Functionalities :](#functionalities-)
+	- [Plan Service](#plan-service-1)
+	- [DevOps](#devops)
+		- [Key Containerization Aspects:](#key-containerization-aspects)
+		- [DevOps Integration:](#devops-integration)
+
+
 # UML Diagrams: 
 
 ## Use cases diagram:
@@ -124,13 +165,77 @@ Configuring OpenFeign is straightforward and can be managed via properties or co
 
 The User Service is a critical component of our fitness app, responsible for managing user information and authentication. It ensures secure handling of user data and provides endpoints for user registration, login, and profile management.
 
-*Key Features*:
+### **Key Features**:
 
 ### JWT Authentication:
 
-The service employs JSON Web Tokens (JWT) to authenticate users. When users register or log in, a JWT token is generated and returned to the client. This token is used for authorizing subsequent requests, ensuring secure and stateless communication between the client and the server.
+![JWT Token](res/jwt.svg)
+
+The service employs JSON Web Tokens (**JWT**) to authenticate users. When users register or log in, a JWT token is generated and returned to the client. This token is used for authorizing subsequent requests, ensuring secure and stateless communication between the client and the server.
 
 ### Password Hashing:
 
 User passwords are hashed using a secure algorithm before being stored in the database. This enhances security by ensuring that plain-text passwords are never stored or transmitted, mitigating the risk of password exposure in case of a database breach.
+
+### Functionalities:
+
+* Ensures new users can sign up securely.
+* Authenticates existing users and provides them with a JWT token for secure communication.
+* Allows users to access their profile information securely.
+* Provides administrative functionality to list all users (if needed).
+* Serves as a simple endpoint to confirm successful authentication and access.
+
+### Why JWT Tokens ?
+
+* *Stateless Authentication*: JWT tokens facilitate stateless authentication, which eliminates the need for the server to maintain session information, thereby reducing overhead and improving scalability.
+
+* *Security*: JWT tokens are signed (and optionally encrypted), ensuring that the data they contain cannot be tampered with and remains confidential.
+
+* *Flexibility*: JWT tokens can include user roles and permissions, simplifying the implementation of fine-grained access control and authorization.
+
+## Workouts Service
+
+The Workouts Service is a core component of our fitness app, responsible for managing all aspects of workout routines. It handles creating, retrieving, updating, and deleting workout records, ensuring users have a seamless experience in organizing and tracking their fitness activities.
+
+### Functionalities:
+
+* *Retrieve All Workouts*: Allows users to fetch all workout records available in the system.  
+* *Add New Workout*: Enables users to create a new workout entry. The workout is linked to the user who created it, identified through the JWT token.  
+* *Filter Workouts by Body Part*: Users can filter workouts based on the body part they target, providing a customized workout experience.  
+* *Delete Workout*: Users can delete their workouts, ensuring they have control over their workout data.
+
+## Stats Service
+The Stats Service in our fitness app is dedicated to tracking and managing user performance statistics. This service helps users monitor their progress over time, providing valuable insights into their fitness journey.
+
+### Functionalities :
+
+* Users can log and update their workout completion stats, including details like current weight and other performance metrics. 
+* The service allows users to retrieve their performance statistics, giving them a comprehensive view of their fitness progress. 
+
+## Plan Service
+The Plan Service is a pivotal component of our fitness app, dedicated to managing workout plans. This service allows users to create, update, retrieve, and manage their workout plans, facilitating structured and efficient fitness routines.
+
+Functionalities:
+* *Create Plan*: Allows users to create a new workout plan, associating it with their user profile.  
+* *Retrieve Plan by ID*: Fetches a specific workout plan using its unique ID.  
+* *Update Plan Status*: Enables users to update the status of a workout plan, helping them track their progress and mark plans as complete, in progress, or on hold.  
+* *Filter Plans by Status*: Users can filter their workout plans based on their status, allowing them to easily manage and organize their fitness routines.
+
+## DevOps
+
+The project leverages **Docker** for containerization, streamlining the deployment process and ensuring consistency across different environments. Each microservice, along with the PostgreSQL databases, is encapsulated within Docker containers, enabling modular development and deployment. Dockerfiles are provided for each service, specifying the build process and runtime environment configuration.
+
+### Key Containerization Aspects:
+
+* *Isolation*: Docker containers provide lightweight, isolated environments for each microservice, ensuring application stability and preventing conflicts between dependencies.  
+* *Portability*: Docker images can be deployed across different platforms and environments with minimal changes, facilitating seamless migration between development, testing, and production environments.
+Resource Efficiency: Docker containers share the host OS kernel, optimizing resource utilization and reducing infrastructure costs compared to traditional virtual machines.  
+* *Version Control*: Docker images serve as immutable artifacts, capturing the entire application stack and facilitating version control for reproducible deployments.
+
+### DevOps Integration:
+
+* *Docker Compose*: Defines a multi-container environment for orchestrating microservice deployment, specifying dependencies, network configurations, and service discovery.  
+* *Custom Initialization Scripts*: Utilizes custom initialization scripts (**create_db.sh**) mounted into database containers to execute custom database setup during initialization, ensuring consistent database configurations.  
+* *Dependency Management*: Docker Compose's depends_on directive specifies service dependencies, facilitating integration testing and ensuring proper startup order.  
+* *Networking*: Connects services within the Docker Compose environment using a custom bridge network (net), enabling communication between microservices while isolating them from external networks.
 
