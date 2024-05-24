@@ -79,7 +79,7 @@ With our microservices architecture, each service operates independently, allowi
 
 ## Microservice Architecture:
 
-![Microservice Architecture](res/archi.png)
+![Microservice Architecture](res/archii.png)
 
 # Microservice Components:
 
