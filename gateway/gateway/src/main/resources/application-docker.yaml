@@ -1,0 +1,49 @@
+server:
+  port: 5000
+
+spring:
+  application:
+    name : gateway-service
+  cloud:
+    gateway:
+        routes:
+          - id: USER-SERVICE
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/auth/**, /users/**, /api/users/**, /
+          - id: PLANS-SERVICE
+            uri: lb://PLANS-SERVICE
+            predicates:
+              - Path=/api/plans/** , /plans/**,
+          - id: WORKOUTS-SERVICE
+            uri: lb://WORKOUTS-SERVICE
+            predicates:
+              - Path=/api/workouts/**, /workouts/**
+          - id: STATS-SERVICE
+            uri: lb://STATS-SERVICE
+            predicates:
+              - Path=/api/stats/**, /stats/**
+        default-filters:
+          - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+        globalcors:
+          cors-configurations:
+            '[/**]':
+              allowedOrigins: "*"
+              allowedMethods: "*"
+              allowedHeaders: "*"
+
+
+
+
+
+
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8070/eureka/
+    fetch-registry: true
+    register-with-eureka: true
