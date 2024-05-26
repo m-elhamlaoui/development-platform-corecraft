@@ -4,7 +4,7 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline
 COPY src ./src
-RUN mvn package spring-boot:repackage -DskipTests
+RUN mvn package -DskipTests
 
 # Final stage
 FROM openjdk:17-alpine

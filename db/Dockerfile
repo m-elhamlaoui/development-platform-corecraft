@@ -4,7 +4,7 @@ FROM postgres:latest
 # Set environment variables
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=pass123
-ENV POSTGRES_MULTIPLE_DATABASES="workoutdata,plandata,statdata,userdata"
+ENV POSTGRES_MULTIPLE_DATABASES="workoutData,planData,statData,userData"
 
 
 # Copy custom configuration files, if any

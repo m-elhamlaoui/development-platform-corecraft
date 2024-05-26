@@ -1,7 +1,9 @@
 package com.statsservice.stats.service.controller;
 
 import com.statsservice.stats.service.model.Stat;
+import com.statsservice.stats.service.model.UserDTO;
 import com.statsservice.stats.service.service.StatService;
+import com.statsservice.stats.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,18 +17,30 @@ public class StatController {
     @Autowired
     private StatService StatService;
 
+    @Autowired
+    private UserService userService;
+
 
 
     @PostMapping("/")
-    public ResponseEntity<Stat> createOrUpdateStat(@RequestBody Stat Stat) {
-        Stat updatedStat = StatService.logWorkoutCompletion(Stat.getUserId(), Stat.getCurrentWeight());
+    public ResponseEntity<Stat> createOrUpdateStat(@RequestBody Stat Stat,
+                                                   @RequestHeader("Authorization") String jwt) {
+
+        UserDTO user = userService.getUserProfile(jwt);
+        Stat updatedStat = StatService.logWorkoutCompletion(user.getId(), Stat.getCurrentWeight());
         return ResponseEntity.ok(updatedStat);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Stat>> getStatByUserId(@PathVariable Long userId) {
-        List<Stat> Stat = StatService.getStatByUserId(userId);
+    @GetMapping("/user")
+    public ResponseEntity<List<Stat>> getStatByUserId(@PathVariable Long userId,
+                                                      @RequestHeader("Authorization") String jwt) {
+        UserDTO user = userService.getUserProfile(jwt);
+        List<Stat> Stat = StatService.getStatByUserId(user.getId());
         return ResponseEntity.ok(Stat);
     }
+
+
+
+
 }
 
