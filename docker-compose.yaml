@@ -1,5 +1,6 @@
 services:
   db:
+    image: anasssrk/corecraft:development-platform-corecraft-db
     build:
       context: db
       dockerfile: Dockerfile
@@ -14,6 +15,7 @@ services:
       - net
 
   eureka-server:
+    image: anasssrk/corecraft:development-platform-corecraft-eureka-server
     build:
       context: eureka server/eureka-server
       dockerfile: Dockerfile
@@ -28,6 +30,7 @@ services:
       - net
 
   user-service:
+    image: anasssrk/corecraft:development-platform-corecraft-user-service
     build:
       context: user service/user-service
       dockerfile: Dockerfile
@@ -46,6 +49,7 @@ services:
       
   
   workouts-service:
+    image: anasssrk/corecraft:development-platform-corecraft-workouts-service
     build:
       context: workouts-service
       dockerfile: Dockerfile
@@ -64,6 +68,7 @@ services:
       
   
   stats-service:
+    image: anasssrk/corecraft:development-platform-corecraft-stats-service
     build:
       context: stats-service
       dockerfile: Dockerfile
@@ -82,6 +87,7 @@ services:
       
 
   plans-service:
+    image: anasssrk/corecraft:development-platform-corecraft-plans-service
     build:
       context: plans service/plans-service
       dockerfile: Dockerfile
@@ -100,6 +106,7 @@ services:
       
 
   gateway-service:
+    image: anasssrk/corecraft:development-platform-corecraft-gateway-service
     build:
       context: gateway/gateway
       dockerfile: Dockerfile

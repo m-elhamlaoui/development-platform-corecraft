@@ -73,7 +73,6 @@ With our microservices architecture, each service operates independently, allowi
 ## Use cases diagram:
 ![Use cases diagram](res/use-cases.png) 
 
-## Class diagram:
 
 # Architecture:
 
@@ -151,9 +150,6 @@ Eureka Server supports dynamic scaling by automatically updating its registry as
 **OpenFeign** is a declarative web service client that simplifies the process of making HTTP requests to external services in a microservices architecture. It allows developers to define and call APIs with minimal boilerplate code, enhancing productivity and maintainability.
 
 In our fitness app, OpenFeign is used for inter-service communication. Each microservice can communicate with others efficiently and reliably without needing to manage the underlying HTTP client details. 
-Here’s how OpenFeign is utilized in our architecture:
-
-![Service registration and discovery pattern](res/open-feign.webp)
 
 ### Service-to-Service Communication:
 OpenFeign enables seamless service-to-service communication by allowing microservices to communicate with each other using simple Java interfaces annotated with HTTP methods and endpoints. This reduces the complexity of making HTTP calls between services, minimizing boilerplate code and potential errors.
